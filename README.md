@@ -81,3 +81,24 @@ $ python simple_request.py
 4. Brittany_spaniel: 0.0013
 5. bluetick: 0.0011
 ```
+
+
+For solving the issue of 
+
+>>model.predict ValueError: Tensor Tensor("fc1000/Softmax:0", shape=(?, 1000), dtype=float32) is not an element of this graph.
+
+```
+import tensorflow as tf
+...
+with graph.as_default():
+				preds = model.predict(image)
+...
+def load_model():
+    # load the pre-trained Keras model (here we are using a model
+    # pre-trained on ImageNet and provided by Keras, but you can
+    # substitute in your own networks just as easily)
+	global model
+	model = ResNet50(weights="imagenet")
+	global graph
+	graph = tf.get_default_graph()
+```
